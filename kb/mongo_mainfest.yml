@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo
+spec:
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017
+  selector:
+    run: mongo
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo
+  labels:
+    app: mongodb
+spec:
+  template:
+    metadata:
+      labels:
+        run: mongo
+    spec:
+      containers:
+      - name: mongo
+        image: mongo
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+          hostIP: 172.17.0.1
